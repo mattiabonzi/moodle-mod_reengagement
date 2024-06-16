@@ -46,17 +46,18 @@ class reengagement_adhoc_task extends adhoc_task {
         global $DB;
 
         $data = $this->get_custom_data();
+        if (empty($data)) {
+            return;
+        }
 
-        // mtrace('Data: ' . print_r($data, true));
+        // Get a list of users who are eligible to start this module.
+        $startusers = reengagement_get_startusers($data);
+        if (empty($startusers)) {
+            mtrace("No users found to start reengagementid " . $data->rid);
+            return;
+        }
 
-        //Fetch the Reengagement based on the provided id
-        // $reengagementcm = $DB->get_record('course_modules', ['id' => $data->cmid]);
-        // if (!$reengagementcm) {
-        //     return;
-        // }
-        // mtrace('Reengagement: ' . print_r($reengagementcm, true));
-        // die;
-        // Prepare the objects for db iteratin
+        // Prepare the objects for db iteratin.
         $timenow = time();
         $reengagementinprogress = new stdClass();
         $reengagementinprogress->reengagement = $data->rid;
@@ -67,18 +68,19 @@ class reengagement_adhoc_task extends adhoc_task {
         $activitycompletion->completionstate = COMPLETION_INCOMPLETE;
         $activitycompletion->timemodified = $timenow;
 
-        // Define the counter.
-        $newripcount = 0;
-        foreach (reengagement_get_startusers($data) as $startcandidate) {
-            $reengagementinprogress->userid = $startcandidate->id;
-            $DB->insert_record('reengagement_inprogress', $reengagementinprogress);
-            $activitycompletion->userid = $startcandidate->id;
-            $DB->insert_record('course_modules_completion', $activitycompletion);
-            $newripcount++;
-        }
+        // Start reengagement for each user.
+        $userlist = array_keys($startusers);
+        $newripcount = count($userlist); // Count of new reengagements in progress.
 
         if (debugging('', DEBUG_DEVELOPER) || ($newripcount && debugging('', DEBUG_ALL))) {
-            mtrace("Adding $newripcount reengagements-in-progress to reengagementid " . $data->rid);
+            mtrace("Found $newripcount users to start reengagementid " . $data->rid);
+        }
+
+        foreach ($userlist as $userid) {
+            $reengagementinprogress->userid = $userid;
+            $DB->insert_record('reengagement_inprogress', $reengagementinprogress);
+            $activitycompletion->userid = $userid;
+            $DB->insert_record('course_modules_completion', $activitycompletion);
         }
 
         // Process completed reengagements.
