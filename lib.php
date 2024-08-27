@@ -446,7 +446,7 @@ function reengagement_template_variables($reengagement, $inprogress, $user) {
     $options = array(
             'context' => context_course::instance($reengagement->courseid),
             'noclean' => true,
-            'trusted' => true
+            'trusted' => true,
     );
     $subjectfields = array('emailsubject', 'emailsubjectmanager', 'emailsubjectthirdparty');
     foreach ($subjectfields as $field) {
