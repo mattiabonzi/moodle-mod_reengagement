@@ -52,10 +52,6 @@ class reengagement_adhoc_task extends adhoc_task {
 
         // Get a list of users who are eligible to start this module.
         $startusers = reengagement_get_startusers($data);
-        if (empty($startusers)) {
-            mtrace("No users found to start reengagementid " . $data->rid);
-            return;
-        }
 
         // Prepare the objects for db iteratin.
         $timenow = time();
