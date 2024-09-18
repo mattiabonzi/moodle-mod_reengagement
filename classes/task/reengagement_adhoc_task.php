@@ -53,7 +53,7 @@ class reengagement_adhoc_task extends adhoc_task {
         // Get a list of users who are eligible to start this module.
         $startusers = reengagement_get_startusers($data);
 
-        // Prepare the objects for db iteratin.
+        // Prepare the objects for db iteration.
         $timenow = time();
         $reengagementinprogress = new stdClass();
         $reengagementinprogress->reengagement = $data->rid;
