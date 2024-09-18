@@ -30,4 +30,4 @@ $plugin->release   = 2023020804;
 $plugin->requires  = 2024081000; // Requires 4.5.
 $plugin->component = 'mod_reengagement';
 $plugin->maturity  = MATURITY_STABLE;
-$plugin->supported = [405, 405];
+$plugin->supported = [404, 404];
