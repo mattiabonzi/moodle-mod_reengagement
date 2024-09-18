@@ -414,6 +414,13 @@ function reengagement_email_user($reengagement, $inprogress) {
         // User has been deleted - don't send an e-mail.
         return true;
     }
+    if (!empty($reengagement->respectemailstop) && !empty($user->emailstop)) {
+        //User has "emailstop" preference set to true
+        //Don't send
+        debugging('', DEBUG_DEVELOPER) && mtrace('Reengagement modules: User:'.$user->id.
+            ' has emailstop preference set to true, Email not sent');
+        return true;
+    }
     if (!empty($reengagement->suppresstarget)) {
         $targetcomplete = reengagement_check_target_completion($user->id, $reengagement->suppresstarget);
         if ($targetcomplete) {

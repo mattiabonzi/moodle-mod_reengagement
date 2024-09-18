@@ -179,6 +179,10 @@ class mod_reengagement_mod_form extends moodleform_mod {
         $mform->hideif('suppresstarget', 'suppressemail', 'notchecked');
         $mform->addHelpbutton('suppresstarget', 'suppresstarget', 'reengagement');
 
+        $mform->addElement('advcheckbox', 'respectemailstop', get_string('respectemailstop', 'reengagement'));
+        $mform->addHelpbutton('respectemailstop', 'respectemailstop', 'reengagement');
+
+
         // Add standard elements, common to all modules.
         $this->standard_coursemodule_elements();
         if ($mform->elementExists('completion')) {

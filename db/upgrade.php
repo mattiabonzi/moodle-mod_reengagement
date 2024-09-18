@@ -176,5 +176,16 @@ function xmldb_reengagement_upgrade($oldversion=0) {
         upgrade_mod_savepoint(true, 2017102001, 'reengagement');
     }
 
+    if ($oldversion < 2024091800) {
+        //Define new field to suppress email for user that has emailstop preference set to true
+        $table = new xmldb_table('reengagement');
+        $field = new xmldb_field('respectemailstop', XMLDB_TYPE_INTEGER, '4', null, XMLDB_NOTNULL, null, '0');
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        upgrade_mod_savepoint(true, 2024091800, 'reengagement');
+    }
+
     return true;
 }

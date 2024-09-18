@@ -141,6 +141,10 @@ $string['withselectedusers_help'] = '* Send message - For sending a message to o
 * Reset completion date by course access - For adjusting the reengagement completion date based on the first access to this course.';
 $string['seconds'] = 'Seconds';
 
+$string['respectemailstop'] = "Suppress notification for those users that have 'emailstop' set to true";
+$string['respectemailstop_help'] = "This option instructs the activity to suppress notifications for those users that have 'emailstop' preference set to true";
+
+
 $string['privacy:metadata:reengagement'] = 'Reengagement ID';
 $string['privacy:metadata:userid'] = 'User id this record relates to';
 $string['privacy:metadata:completiontime'] = 'When this module will be complete';
